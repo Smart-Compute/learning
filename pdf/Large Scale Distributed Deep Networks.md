@@ -1,10 +1,5 @@
 # Large Scale Distributed Deep Networks
 
-jkfjas
-## Abstract
-
-## 1. Introduction
-
 DisBelief
 
 Within this framework, we have designed and implemented two novel methods for large-scale distributed training:
