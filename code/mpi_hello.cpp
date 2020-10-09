@@ -6,6 +6,7 @@
 
 using namespace std;
 
+
 int main(int argc, char *argv[]) {
   // Unique rank is assigned to each process in a communicator
   int rank;

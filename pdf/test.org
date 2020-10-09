@@ -1,5 +1,6 @@
 * Demystifying Parallel and Distributed Deep Learning: An In-Depth Concurrency Analysis
 
+
 ** 1. Introduction
 
 - Deep Learning
@@ -26,3 +27,15 @@ Other surveys in the field focus on applications of deep learning, neural networ
 
 
 
+[[file:test.org_imgs/20201007_223206_C3swIz.png]]
+
+
+[[file:test.org_imgs/20201009_095710_CL56bp.png]]
+
+*** 2.2 Unsupervied and Reinforcement Learning
+
+Unsupervised learning has two useful implementations: autoencoders, and Generative Adversarial Networks (GANs)
+- Auto-encoders: 输入和输出尽可能相同，人工噪音
+- GANs:生成对抗网络，discriminator甄别真假，generator尽可能生成真实数据样本
+
+*** Parallel Computer Architecture
