@@ -1,0 +1,13 @@
+* 分布式系统
+** 1. Introdution
+
+这门课程
+ - parallelism
+ - fault tolerance
+ - physical
+ - security / isolated
+
+challenges:
+ - partial failure
+
+** 2. RPC and Threads
