@@ -1,0 +1,14 @@
+#+TITLE: 环境配置
+* 环境配置
+** mxnet(pip安装)
+
+- 问题：libcudart.so.10.0: cannot open shared object file: No such file or directory
+- [[https://github.com/dmlc/gluon-cv/issues/698][参考github]]
+- Add below to /etc/ld.so.conf.d/cuda.conf ~/usr/local/cuda/lib64~ run ~sudo ldconfig~
+
+** mxnet(源码编译)
+- cmake升级，卸载旧版本， ~python3 -m pip install --user --upgrade "cmake>=3.13.2"~ ，安装目录在 ~.local/bin/cmake~
+- 安装分为两部：
+  + 将 MXNet C++ 代码编译成共享库
+  + 为 MXNet 安装特定语言包
+  + 

@@ -1,0 +1,14 @@
+* learning
+** 课程
+
+- 陈天奇 [[http://dlsys.cs.washington.edu/][CSE 599W: Systems for ML]]
+
+** 论文
+
+- 综述 Demystifying Parallel and Distributed Deep Learning: An In-Depth Concurrency Analysis
+- DistBeliefNIPS2012.
+
+** 阅读材料
+
+- [[https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650719529&idx=3&sn=6992a6067c79349583762cb28eecda89&chksm=871b0157b06c8841587bdfb992c19290c8d66386a6f8accdf70998ce3f86b36330219c09672d&mpshare=1&scene=1&srcid=100235uWRt0RRCdgRD8cWhFA&key=79512945a1fcb0e23a0d599f9fac73b29e4c83186baf435b85184f86d2229f96475e5fd9a91ae857f05b1e43dc64a6c4&ascene=0&uin=NjE3MTk0NzAy&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.10.2+build(14C2043)&version=11020201&pass_ticket=xzF0Qe2vhIc%2F9ouG2w3WGYLva0mV6ysf1IWUmiWh5A8ABEZQXfOpJRHWUDevOWxS][MXNet专栏 | 陈天奇：NNVM打造模块化深度学习系统]]
+- [[https://www.zhihu.com/column/c_186688444][知乎专栏SysML/DL机器学习系统]]
