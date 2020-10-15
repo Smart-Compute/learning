@@ -11,4 +11,35 @@
 - 安装分为两部：
   + 将 MXNet C++ 代码编译成共享库
   + 为 MXNet 安装特定语言包
-  + 
+- 1.4.1有安装脚本
+
+** mxnet源码阅读  
+*** 参考
+- http://shuokay.com/archives/
+- https://saicoco.github.io/activation-source/
+
+*** 总览
+[[file:环境配置.org_imgs/20201016_184450_tk07pm.png]]
+
+上图显示了 MXNet 各个模块之间的关系。最新的 MXNet 与上图有一些区别，主要是 nnvm 的引入。各个模块的作用如下
+
+- KVStore: 提供了 key-value 的存储接口，实现数据的快速同步。同时支持单机模式和分布式模式
+- Data Loading (IO): 数据 IO, 这个模块主要目的是实现非常高效且分布式的数据加载和预处理. MXNet 中支持其它格式如 numpy.array 的数据输入，但是，该模块可以使得 load 数据更加高效。因为，在深度学习中，高效的数据载入方法可以避免 GPU 空载，提高 GPU 的利用率。例如，在 CNN 中，一个 batch 通常要以随机的顺序读取非常多的小图片，因此，数据载入就要花费大量时间，通常在当前 batch 计算完成之后，下一个 batch 需要的数据还没有准备好.
+- NDArray: 动态异步的 n 维 array, 部分功能可以类比 numpy. 另外比较重要的是，NDArray 同时支持在 CPU 和 GPU 上计算。该模块提供了命令式的编程 (对比的，Symbol 提供了符号式编程)
+- Symbolic Execution: 静态图引擎，主要是提供高效的图的执行和优化。例如 memory 的优化，数据的绑定和检查都是在这一模块中完成的.
+- Symbol Construction: 提供从 Symbol 构建 computation graph 的方法。例如，graph 的 topo 序计算，从而得到唯一的图中 node topo 顺序就是在该模块完成.
+- Operator: 具体的各种操作，可以类比 tensorflow 中的 kernel 和 caffe 中的 layer, 绝大部分任务只需要修改或者增加相应的 operator 就可以完成.
+- Storage Allocator: memory 管理模块，包括 memory 的申请和复用.
+- Runtime Dependency Engine: 计算的调度模块，例如同步还是异步，要不要使用线程池模式，在 CPU 还是在 GPU 上计算，都是该模块来完成的.
+- Resource Manager: 资源管理模块，例如，随机数的生成，临时 memory 的管理等.
+  
+上面说到的 nnvm 主要是和 Symbolic Execution 和 Symbol Construction 有关.
+
+*** 细节
+include文件夹存放头文件，src文件夹放源文件
+- include
+  + io.h
+  + kvstore.h
+  + ndarray.h
+  + operator.h
+    
