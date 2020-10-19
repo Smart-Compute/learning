@@ -17,6 +17,10 @@
 *** 参考
 - http://shuokay.com/archives/
 - https://saicoco.github.io/activation-source/
+- https://mxnet.apache.org/versions/1.7/api/cpp/docs/api/index.html  
+- [[https://blog.csdn.net/mydear_11000/category_6177137.html][csdn专栏]] 
+- [[https://www.zhihu.com/question/35924234][知乎讨论]]
+- [[https://www.cnblogs.com/heguanyou/tag/MXNet/][MXNet - 标签 - Thaurun - 博客园]]
 
 *** 总览
 [[file:环境配置.org_imgs/20201016_184450_tk07pm.png]]
@@ -37,9 +41,32 @@
 
 *** 细节
 include文件夹存放头文件，src文件夹放源文件
-- include
-  + io.h
-  + kvstore.h
-  + ndarray.h
-  + operator.h
+
+**** Storage
+[[https://blog.csdn.net/fxwfxz/article/details/78813396?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param][csdn博客Storage详解]]
+
+**** IO
+- Class:
+  + ImageAugmenter
+  + ImageLabelMap
+- Files:
+  + iter_prefetcher.h(预取器)
     
+    
+
+*** 疑问
+- python pip 安装的代码和源代码有何关系
+- csr是什么(NDArray)
+- 这么多个NDArray构造函数有什么不同，具体区别是什么
+- 看源码有什么技巧和细节
+
+*** 又是一个小细节
+- [[https://www.cnblogs.com/Wayou/p/macros_in_c_and_cpp.html][宏(macro)]]
+- [[https://blog.csdn.net/abc5382334/article/details/18052757][#ifndef/#define/#endif使用详解]]，防止头文件被重复引用
+- C++11 中的 override 关键字，可以显式的在派生类中声明，哪些成员函数需要被重写，如果没被重写，则编译器会报错。
+- [[https://www.runoob.com/cplusplus/cpp-namespaces.html][namespace使用]]
+- [[https://www.runoob.com/cplusplus/cpp-templates.html][类模板]]
+- [[https://blog.csdn.net/mayue_web/article/details/88406527][final 禁止类继承和函数重写]]
+- [[https://blog.csdn.net/lixiaogang_theanswer/article/details/81090622][c++11新特性default]]  
+- [[https://my.oschina.net/yangcol/blog/123433][C++11 mutex方便的自解锁lock_guard]]
+- explicit关键字用来修饰类的构造函数，被修饰的构造函数的类，不能发生相应的隐式类型转换，只能以显示的方式进行类型转换。
