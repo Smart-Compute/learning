@@ -12,6 +12,7 @@
   + 将 MXNet C++ 代码编译成共享库
   + 为 MXNet 安装特定语言包
 - 1.4.1有安装脚本
+- 最后安装完成后在.local/lib/python3.6/site-packages/mxnet.egg-link创建一个连接
 
 ** mxnet源码阅读  
 *** 参考
@@ -41,7 +42,20 @@
 
 *** 细节
 include文件夹存放头文件，src文件夹放源文件
-
+**** Include
+***** base.h
+- opencv, cuda, cudnn library, cuSOLVER(cuda)
+- wether have GPU, g++ support
+ [[file:环境配置.org_imgs/20201028_180954_g0wvvZ.png]] 
+- prediction major version, minor version, mxnet version, make version 
+- mshadow(cpu, gpu, index_t, default_real_t), nnvm(TShape, OP)
+  ~using TShape = nnvm::TShape;~
+- Struct Context{DeviceType(kCPU, KGPU, kCPUPinned, kGPUShared)}
+***** tensor_blob.h
+- constexper
+- friend class NDArray
+- class TBlob
+  
 **** Storage
 [[https://blog.csdn.net/fxwfxz/article/details/78813396?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param][csdn博客Storage详解]]
 
@@ -53,7 +67,6 @@ include文件夹存放头文件，src文件夹放源文件
   + iter_prefetcher.h(预取器)
     
     
-
 *** 疑问
 - python pip 安装的代码和源代码有何关系
 - csr是什么(NDArray)

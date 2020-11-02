@@ -1,0 +1,19 @@
+#+TITLE: Mxnet 学习轨迹
+
+* 看源码
+** 10/27
+- [[https://www.cnblogs.com/heguanyou/p/7604326.html][mxnet的训练过程——从python到C++ - Thaurun - 博客园]]
+  博客代码有点老0.7，放弃阅读
+- [[https://www.youtube.com/watch?v=msA8kHrYhFE][深度学习Deep Learning：MXNet实践与原理分析 - YouTube]]  
+  讲的很浅，对一些基础概念加深了理解
+
+** 10/28  
+- 继续看源码
+- [[https://cwiki.apache.org/confluence/display/MXNET/Proposals][官方开发文档]]
+- 重新规划
+  从NNVM入手，先弄清楚运算图怎么构建，怎么自定义Operator。另外别一开始就上手mxnet源码，先去看Chentianqi的tinyflow。尽管看完这个也只是看个一角，但至少可以帮助你理解。另外，最好从接口入手，找例子一步一步调试，调试tinyflow可以帮助你理解很多基本的东西。
+- CSE 599W学习  
+  看源码的感觉是，好多东西一知半解，前面看了后面忘了，不理解为什么这么设计，依赖的第三方库太多。
+  + tvm学习
+- 重新看代码，tvm等暂时与课题无关，使用clion看代码  
+

@@ -1,4 +1,5 @@
 #+TITLE: CSE599W
-
-
+* 参考资料
+- [[https://zhuanlan.zhihu.com/p/104649426][CSE 599W - Systems for ML - 辛酸阅读记录 - 知乎]] ：课程笔记
+- [[https://zhuanlan.zhihu.com/p/104440447][Dive into Deep Learning Compiler摘要(1) - 知乎]] ：帮助理解课程和tvm
 
