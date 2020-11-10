@@ -13,9 +13,14 @@
   + 为 MXNet 安装特定语言包
 - 1.4.1有安装脚本
 - 最后安装完成后在.local/lib/python3.6/site-packages/mxnet.egg-link创建一个连接
+- 1.6 make安装总是失败，按照找个教程，cmake安装成功https://mxnet.apache.org/versions/1.5.0/install/ubuntu_setup.html
+- 使horovd支持mxnet ~HOROVOD_WITH_MXNET=1 pip install horovod~
+** 开发环境
+1. clion, mxnet-1.6
+   a. [[https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit][Inotify Watches Limit - IntelliJ IDEA - Confluence]]
 
-** mxnet源码阅读  
-*** 参考
+* mxnet源码阅读  
+** 参考
 - http://shuokay.com/archives/
 - https://saicoco.github.io/activation-source/
 - https://mxnet.apache.org/versions/1.7/api/cpp/docs/api/index.html  
@@ -23,7 +28,7 @@
 - [[https://www.zhihu.com/question/35924234][知乎讨论]]
 - [[https://www.cnblogs.com/heguanyou/tag/MXNet/][MXNet - 标签 - Thaurun - 博客园]]
 
-*** 总览
+** 总览
 [[file:环境配置.org_imgs/20201016_184450_tk07pm.png]]
 
 上图显示了 MXNet 各个模块之间的关系。最新的 MXNet 与上图有一些区别，主要是 nnvm 的引入。各个模块的作用如下
@@ -40,10 +45,10 @@
   
 上面说到的 nnvm 主要是和 Symbolic Execution 和 Symbol Construction 有关.
 
-*** 细节
+** 细节
 include文件夹存放头文件，src文件夹放源文件
-**** Include
-***** base.h
+*** Include
+**** base.h
 - opencv, cuda, cudnn library, cuSOLVER(cuda)
 - wether have GPU, g++ support
  [[file:环境配置.org_imgs/20201028_180954_g0wvvZ.png]] 
@@ -51,29 +56,28 @@ include文件夹存放头文件，src文件夹放源文件
 - mshadow(cpu, gpu, index_t, default_real_t), nnvm(TShape, OP)
   ~using TShape = nnvm::TShape;~
 - Struct Context{DeviceType(kCPU, KGPU, kCPUPinned, kGPUShared)}
-***** tensor_blob.h
+**** tensor_blob.h
 - constexper
 - friend class NDArray
 - class TBlob
   
-**** Storage
+*** Storage
 [[https://blog.csdn.net/fxwfxz/article/details/78813396?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param][csdn博客Storage详解]]
 
-**** IO
+*** IO
 - Class:
   + ImageAugmenter
   + ImageLabelMap
 - Files:
   + iter_prefetcher.h(预取器)
     
-    
-*** 疑问
+** 疑问
 - python pip 安装的代码和源代码有何关系
 - csr是什么(NDArray)
 - 这么多个NDArray构造函数有什么不同，具体区别是什么
 - 看源码有什么技巧和细节
 
-*** 又是一个小细节
+** C++11
 - [[https://www.cnblogs.com/Wayou/p/macros_in_c_and_cpp.html][宏(macro)]]
 - [[https://blog.csdn.net/abc5382334/article/details/18052757][#ifndef/#define/#endif使用详解]]，防止头文件被重复引用
 - C++11 中的 override 关键字，可以显式的在派生类中声明，哪些成员函数需要被重写，如果没被重写，则编译器会报错。
@@ -83,3 +87,28 @@ include文件夹存放头文件，src文件夹放源文件
 - [[https://blog.csdn.net/lixiaogang_theanswer/article/details/81090622][c++11新特性default]]  
 - [[https://my.oschina.net/yangcol/blog/123433][C++11 mutex方便的自解锁lock_guard]]
 - explicit关键字用来修饰类的构造函数，被修饰的构造函数的类，不能发生相应的隐式类型转换，只能以显示的方式进行类型转换。
+- [[https://www.cnblogs.com/DswCnblog/p/5629165.html][C++ 11 Lambda表达式 - 滴水瓦 - 博客园]]
+- #pragma omp parallel for
+  OpenMP [[http://www.bowdoin.edu/~ltoma/teaching/cs3225-GIS/fall16/Lectures/openmp.html][Intro to Parallel Programming with OpenMP]]
+- 同一个namespace内的cpp文件可以不用include?  
+- Enum class
+  [[https://www.learncpp.com/cpp-tutorial/4-5a-enum-classes/][S.4.5a — Enum classes | Learn C++]]
+** python
+1. ~__all__ = []~
+   规定该文件被其他文件import时，只有 __all__ 的才能被使用
+2. ~@property~
+   [[https://www.programiz.com/python-programming/property][Python @property: How to Use it and Why? - Programiz]]
+* mxnet代码分析
+** kvstore
+1. kv.create() example/distributed_training/cifar10_dist.py
+   a. kv.create() -> KVStoreHandle() = ctypes.c_void_p # 调用c++代码 
+   b. _LIB.MXKVStoreCreate(c_str(name), ctypes.byref(handle)))
+      - 0 when success, -1 when failure
+      - c_api.h & c_api.cc: KVStore::Create(type)
+   c. kv = KVStore(handle)
+      - class KVStore(object) 该类中包括push, pull等函数
+      - push通过_LIB.MXKVStorePushEx调用c++代码
+   d. set_kvstore_handle(kv.handle)
+   e. return kv
+2. gluon.Trainer(...) example/distribute_training/cifar10_dist.py
+   a. class Trainer(object)
