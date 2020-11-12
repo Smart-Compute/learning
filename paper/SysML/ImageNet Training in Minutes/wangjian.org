@@ -1,0 +1,18 @@
+#+TITLE: Image Net Training In Minutes
+
+Background:
+- The ImageNet-1k benchmark set has played a significant role as a benchmark for ascertaining the accuracy of different deep neural net (DNN) models on the classification problem. 
+- The training time cost is significant. Finishing a 90-epoch ImageNet-1k training with ResNet-50 on a NVIDIA M40 GPU takes 14 days.
+
+Solution:  
+- Most successful approaches to scaling ImageNet training have used the synchronous stochastic gradient descent. 
+- Enable increasing the batch size in data-parallel
+- In this paper, we use LARS algorithm together with warmup scheme to scale up the batch size.
+
+Results:  
+- using LARS we efficiently utilized 1024 CPUs to finish the 100-epoch ImageNet training with AlexNet in 11 minutes with 58.6% accuracy (batch size = 32K),
+- We utilized 2048 KNLs to finish the 90-epoch ImageNet training with ResNet-50 in 20 minutes without losing accuracy (batch size = 32K).
+- State-of-the-art ImageNet training speed with ResNet-50 is 74.9% top-1 test accuracy in 15 minutes. But we got 74.9% top-1 test accuracy in 64 epochs, which only needs 14 minutes.
+- Furthermore, when the batch size is above 16K, our accuracy using LARS is much higher than Facebooks corresponding batch sizes 
+
+

@@ -1,5 +1,8 @@
 #+TITLE: Scaling Distributed Machine Learning With The Parameter Server
+#+LATEX_HEADER: \usepackage{ctex}
+#+LATEX_COMPILER: xelatex
 - OSDI 2014
+
 * Abstract
 We propose a parameter server framework for distributed machine learning problems. 
 * 1 Introduction
