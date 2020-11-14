@@ -2,7 +2,7 @@
 * Links
 - [[https://github.com/dmlc/dmlc-core][github源码]]
 - [[https://dmlc-core.readthedocs.io/en/latest/parameter.html][readthedocs文档]]
-- [[https://www.cnblogs.com/heguanyou/p/7613191.html][MXNet--DMLC-Core代码解读与宏 - Thaurun - 博客园]] 还没看完
+- [[https://www.cnblogs.com/heguanyou/p/7613191.html][MXNet--DMLC-Core代码解读与宏 - Thaurun - 博客园]]
 
 * 文档阅读(细节看文档)
 ** Parameter Structure for Machine Learning

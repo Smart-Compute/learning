@@ -1,0 +1,4 @@
+#+TITLE: nnvm&tvm
+* 参考资料
+- [[https://blog.csdn.net/sanallen/category_7429137.html][深度学习编译中间件_sanallen的专栏_sanallen-CSDN博客]] ：nnvm 和 tvm 介绍，其中有一篇tvm论文解读
+- 

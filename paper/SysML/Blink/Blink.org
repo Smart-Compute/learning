@@ -1,0 +1,93 @@
+#+TITLE: BLINK: FAST AND GENERIC COLLECTIVES FOR DISTRIBUTED ML(MLSys 2020)
+#+LATEX_HEADER: \usepackage{ctex}
+#+LATEX_COMPILER: xelatex
+
+#+BEGIN_abstract
+跨GPU的模型参数同步为大规模数据并行训练引入了高开销。面对不断增加的硬件异构性，现有的参数同步协议无法有效地利用可用的网络资源。我们提出Blink(a collective communication library that dynamically generates optimal communication primitives by packing spanning trees)，与 NCCL(modern communication libraries, NVIDIA’s Collective Communications Library) 进行比较(soa)。
+#+END_abstract
+
+* INTRODUCTION
+In data-parallel training, each GPU has a full copy of the model parameters and GPUs frequently exchange parameters with other GPUs involved in training.
+
+通信开销占50%-90%，the fact that GPU computation is getting faster and model sizes are growing larger, thus making communication overheads stand out
+
+现有的通信库：NVIDIA’s Collective Communications Library (NCCL),  Baidu’s Ring AllReduce 
+ 
+实现 gpu 间集群峰值性能的核心障碍是由于拓扑异构导致的链路利用率不足。我们发现这种情况的发生主要有两个原因：
+1. 服务器配置不同，协议必须具有拓扑意识，才能有效地使用硬件
+   [[file:Blink.org_imgs/20201111_092407_ah2YN2.png]]
+2. 在多租户集群中，对 gpu 之间的互连拓扑是不敏感的。许多 job 被分配到同一个机器上。必须能够利用碎片化时间来避免排队延迟。
+   [[file:Blink.org_imgs/20201111_093715_mKtQTR.png]]
+   尽管 jobs 大多以2的幂次请求 gpu ，大多数机器还是分配了3,5,6,7个 gpu 。
+   
+*Contributions*:
+- 提出 Blink，以达到接近最佳的链路利用率。
+- 动态生成给定拓扑的最佳通信原语
+- probes the set of links available for a given job at runtime and builds a topology with appropriate link capacities.
+- ...
+- 提供 NCCL-compatible API, 无缝衔接深度学习框架。
+* MOTIVATION 
+** The case for packing trees
+我们的动力来自通信的开销
+** Micro Benchmarks
+- Depth Test
+  + A simple chain topology
+    [[file:Blink.org_imgs/20201111_192652_Ssn2iX.png]]
+    
+    [[file:Blink.org_imgs/20201111_192714_5JMvwz.png]]
+    数据集越小，吞吐量下降；chain length 越长（GPU越多），吞吐量从21降到19
+
+- Multi-transfer Test
+  Two topologies: a multi-input, multi-output (MIMO) as Fig. 8(a) and a multi-chain aggregation (MCA) as Fig. 8(b).
+  [[file:Blink.org_imgs/20201111_193156_SWDr8u.png]]
+** Blink Approach
+[[file:Blink.org_imgs/20201111_200312_t4CsGg.png]]
+工作流程：
+- 在运行时，一旦深度学习任务被调度并分配了一组gpu, Blink就能够探测机器的拓扑，并通过所分配的 gpu 推断互连拓扑。
+- TreeGen，这一步输出一组生成树和对应于应该通过它们发送多少数据的权重
+- CodeGen parses the spanning trees and generates CUDA code.
+- 设置 LD_PRELOAD flag，动态加载 Blink 的实现。
+* DESIGN
+** Packing Spanning Trees
+GPU, links --> 图论 --> 寻找最大权重的spanning tree
+[[file:Blink.org_imgs/20201111_201051_Bhhwwu.png]]
+直接寻找事件复杂度较大，下面介绍优化方法。
+** Approximate Packing
+multiplicative weight update(MWU):
+- 初始化权重和capacity
+- 循环：
+  + 寻找最小权重的spanning tree
+  + 降低该tree 的权重，更新图的权重
+*** Minimizing Number of Trees
+将权重限制为0 or 1 --> 整数线性规划 integer linear program(ILP)
+** Handling many-to-many operations
+前面的讨论关注于 one-to-many, 为了解决many-to-many, 我们发现所有机器是双向的，所以图变成了无向图。
+** DGX-2 and Multi-server settings
+* IMPLEMENTATION
+** CodeGen Implementation
+简化问题，只讨论两种collective communication: Broadcast and AllReduce
+** CodeGen Optimizations
+两个问题
+*** Automatic chunk size selection
+块的大小影响整体的效率。
+[[file:Blink.org_imgs/20201111_202947_MalqKw.png]]
+使块小点，能够提高系统效率。因此我们需要设计如何自动选择块的大小。
+
+multiplicative increase, additive decrease (MIAD): 初始化块大小很小，当吞吐量提高，以乘法增加块大小，直到达到一个平稳状态。
+
+[[file:Blink.org_imgs/20201111_203214_5JlRDc.png]]
+*** Link Sharing
+问题： CUDA functions do not provide any direct control on how links are shared
+
+解决： reusing CUDA streams when the same link is used in multiple trees at roughly the same position
+[[file:Blink.org_imgs/20201111_203632_FViQuS.png]]
+* EVALUATION
+** Tree Packing Benefits
+** Broadcast, AllReduce Micro-benchmarks
+** End-to-end Training
+* RELATED WORK
+- Topology-fixed Schemes: MPI, Horovod, All-Reduce, Gloo
+- Topology-aware Protocols 
+* CONCLUSION
+Blink是一个用于加速分布式ML的快速通用的集体通信库。为了处理现代GPU硬件中普遍存在的拓扑异构，Blink动态地包生成树以最大化链路利用率。与最先进的基于环的协议(如NCCL2)相比，Blink实现了高达8倍的模型同步，并将端到端训练时间减少了40%。
+
