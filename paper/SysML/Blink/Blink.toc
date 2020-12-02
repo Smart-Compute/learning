@@ -1,0 +1,22 @@
+\contentsline {section}{\numberline {1}INTRODUCTION}{2}{section.1}
+\contentsline {section}{\numberline {2}MOTIVATION}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}The case for packing trees}{4}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Micro Benchmarks}{4}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Blink Approach}{5}{subsection.2.3}
+\contentsline {section}{\numberline {3}DESIGN}{6}{section.3}
+\contentsline {subsection}{\numberline {3.1}Packing Spanning Trees}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Approximate Packing}{6}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Minimizing Number of Trees}{6}{subsubsection.3.2.1}
+\contentsline {subsection}{\numberline {3.3}Handling many-to-many operations}{6}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}DGX-2 and Multi-server settings}{7}{subsection.3.4}
+\contentsline {section}{\numberline {4}IMPLEMENTATION}{7}{section.4}
+\contentsline {subsection}{\numberline {4.1}CodeGen Implementation}{7}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}CodeGen Optimizations}{7}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Automatic chunk size selection}{7}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Link Sharing}{8}{subsubsection.4.2.2}
+\contentsline {section}{\numberline {5}EVALUATION}{9}{section.5}
+\contentsline {subsection}{\numberline {5.1}Tree Packing Benefits}{9}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Broadcast, AllReduce Micro-benchmarks}{9}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}End-to-end Training}{9}{subsection.5.3}
+\contentsline {section}{\numberline {6}RELATED WORK}{9}{section.6}
+\contentsline {section}{\numberline {7}CONCLUSION}{9}{section.7}
